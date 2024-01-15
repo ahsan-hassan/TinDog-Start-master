@@ -1,0 +1,23 @@
+name: Deploy to cPanel
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+   
+    - name: Deploy to cPanel
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.CSS_HOST }}
+        username: ${{ secrets.CSS_USER }}
+        key: ${{ secrets.CSS_KEY }}
+        script: |
+          cd /home/cssnet/public_html/TinDog-Start-master
+          git pull origin main
+          # Any additional deployment steps
